@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "Maison Vera API",
+    "description": "Complete e-commerce backend for Maison Vera",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+    },
+    {
+      "name": "Admin Login",
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": ["const j = pm.response.json(); if (j.token) pm.collectionVariables.set('token', j.token);"]
+        }
+      }],
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/auth/admin/password-login",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"password\":\"admin123\"}" }
+      }
+    },
+    {
+      "name": "Get Products",
+      "request": { "method": "GET", "url": "{{baseUrl}}/products" }
+    },
+    {
+      "name": "Admin Dashboard",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/admin/dashboard",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+      }
+    },
+    {
+      "name": "Admin Analytics",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/admin/analytics",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+      }
+    },
+    {
+      "name": "Admin Orders",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/admin/orders",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+      }
+    },
+    {
+      "name": "Admin Customers",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/admin/customers",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+      }
+    },
+    {
+      "name": "Admin Inventory",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/admin/inventory",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+      }
+    },
+    {
+      "name": "Validate Coupon",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/coupons/validate",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"code\":\"MAISON10\",\"subtotal\":500}" }
+      }
+    }
+  ]
+}
