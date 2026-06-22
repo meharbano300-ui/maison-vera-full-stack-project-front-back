@@ -4,38 +4,26 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 export default defineConfig({
-  base: "/",
   plugins: [
-  react(),
-  tailwindcss() // Tailwind v4 support barkarar rakhi hai
+    react(),
+    tailwindcss()
   ],
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets")
+      "@": path.resolve(__dirname, "./src"),
     },
-    dedupe: ["react", "react-dom"]
   },
-  root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: "dist", // Vercel ko seedha standard 'dist' folder chahiye!
     emptyOutDir: true
   },
   server: {
     port: 5173,
-    host: "0.0.0.0",
-    fs: {
-      strict: true
-    },
     proxy: {
       "/api": {
         target: "http://localhost:5000",
         changeOrigin: true
       }
     }
-  },
-  preview: {
-    port: 5173,
-    host: "0.0.0.0"
   }
 });
